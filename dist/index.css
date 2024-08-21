@@ -17,7 +17,7 @@
   -webkit-text-size-adjust: 100%;
   /* 3 */
   background: #fff;
-  color: #666;
+  color: #222222;
 }
 /*
  * Remove the margin in all browsers.
@@ -939,7 +939,7 @@ a.uk-link-reset,
   text-align: left;
   vertical-align: bottom;
   font-weight: bold;
-  color: #999;
+  color: #888;
 }
 /* Cell
  ========================================================================== */
@@ -2069,6 +2069,13 @@ select.uk-form-width-xsmall {
   line-height: 28px;
   font-size: 0.875rem;
 }
+
+.uk-button-micro {
+  padding: 2px 8px 2px 8px;
+  line-height: 14px;
+  font-size: 0.875rem;
+}
+
 .uk-button-large {
   padding: 0 40px;
   line-height: 53px;

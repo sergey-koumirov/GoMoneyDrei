@@ -1,52 +1,73 @@
-import React, {useEffect, useState} from 'react';
-import { apiCurrencies } from '../api';
-import {map} from "lodash"
+import React, { useEffect, useState } from "react";
+import { apiCurrencies, apiCurrenciesCreate } from "../api";
+import Table from "./table";
+import Editor from "./editor";
+import { isEmpty } from "lodash";
+
 const Currencies = () => {
+  const [data, setData] = useState({});
+  const [mode, setMode] = useState("index");
+  const [record, setRecord] = useState({});
+  const [errors, setErrors] = useState({});
 
-    const [data, setData] = useState({})
+  const handleDelete = () => {
+    console.log("handleDelete");
+  };
 
-    const handleDelete = ()=>{
-        console.log("handleDelete");
-    }
+  const handleEdit = () => {
+    console.log("handleEdit");
+  };
 
-    useEffect(()=>{
-        apiCurrencies().then((data)=>{            
-            setData(data);
+  const handleAdd = () => {
+    setRecord({ ID: 0, Name: "", Code: "" });
+    setMode("edit");
+  };
+
+  const handleCancel = () => {
+    setMode("index");
+  };
+
+  const handleSave = (payload) => {
+    apiCurrenciesCreate(payload).then(({ currency, errors }) => {
+      console.log(currency, errors);
+      if (isEmpty(errors)) {
+        apiCurrencies().then((data) => {
+          setMode("index");
+          setData(data);
         });
-    },[])    
+      } else {
+        setErrors(errors);
+      }
+    });
+  };
 
-    return (
-        <div className="uk-padding-small uk-padding-remove-top ">
-            <table className="uk-table uk-table-small uk-table-grid uk-table-hover uk-table-striped">
-                <thead>
-                    <tr>
-                        <th className="uk-text-center">ID</th>
-                        <th className="uk-text-center">Name</th>
-                        <th className="uk-text-center">Code</th>
-                        <th className="uk-text-right uk-width-small">
-                            <button>Add</button>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {map(data.records, (record)=>(
-                        <tr key={record.ID}>
-                            <td className="uk-text-center">
-                                {record.ID}
-                            </td>
-                            <td>{record.Name}</td>
-                            <td>{record.Code}</td>
-                            <td className="uk-text-right uk-width-small">
-                                <button className="hiddenish">Edit</button>
-                                &nbsp;&nbsp;
-                                <button className="hiddenish" onClick={handleDelete}>Delete</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    )
-}
+  useEffect(() => {
+    apiCurrencies().then((data) => {
+      setData(data);
+    });
+  }, []);
+
+  return (
+    <div className="uk-padding-small uk-padding-remove-top ">
+      {mode === "index" && (
+        <Table
+          records={data.records}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+          handleAdd={handleAdd}
+        />
+      )}
+
+      {mode === "edit" && (
+        <Editor
+          handleCancel={handleCancel}
+          handleSave={handleSave}
+          initRecord={record}
+          errors={errors}
+        />
+      )}
+    </div>
+  );
+};
 
 export default Currencies;

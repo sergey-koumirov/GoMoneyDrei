@@ -6,13 +6,16 @@ import (
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var base *gorm.DB
 
 func InitDB() error {
 	var err error
-	base, err = gorm.Open(sqlite.Open("./dist/gmd-dev.sqlite"), &gorm.Config{})
+	base, err = gorm.Open(sqlite.Open("./dist/gmd-dev.sqlite"), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -27,14 +30,6 @@ func GetTransactions(page int, limit int) []Transaction {
 	return result
 }
 
-func GetCurrencies() []Currency {
-	result := []Currency{}
-
-	base.Order("id").Where("tag='cur'").Find(&result)
-
-	return result
-}
-
 func GetBalances(tag string) models.BalancesInfos {
 	rows, e1 := base.Raw(
 		`select a.id as AccountID, 
@@ -45,7 +40,7 @@ func GetBalances(tag string) models.BalancesInfos {
 	              ifnull((select sum(t1.amount_from) from transactions t1 where t1.account_from_id = a.id), 0)
 				) as Amount
            from accounts a
-                  left join currencies c on c.id = a.currency_id
+                  inner join currencies c on c.id = a.currency_id
            where a.tag = ?
              and a.visible = 1
 		   order by c.code, a.name`,
@@ -78,12 +73,15 @@ func GetBalances(tag string) models.BalancesInfos {
 	}
 
 	currencies := []Currency{}
-	base.Where("tag='cur'").Order("code").Find(&currencies)
+	base.Where("tag='curr'").Order("code").Find(&currencies)
 
-	result := make(models.BalancesInfos, len(currencies))
+	result := make(models.BalancesInfos, 0)
 
-	for index, currency := range currencies {
-		result[index] = temp[currency.Code]
+	for _, currency := range currencies {
+		test, ex := temp[currency.Code]
+		if ex {
+			result = append(result, test)
+		}
 	}
 
 	return result
