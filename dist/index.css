@@ -3692,8 +3692,6 @@ select.uk-form-width-xsmall {
  * 6. Fade-in transition
  */
 .uk-modal {
-  /* 1 */
-  display: none;
   /* 2 */
   position: fixed;
   top: 0;
@@ -3708,7 +3706,7 @@ select.uk-form-width-xsmall {
   /* 5 */
   background: rgba(0, 0, 0, 0.6);
   /* 6 */
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.15s linear;
 }
 /* Phone landscape and bigger */
@@ -3759,8 +3757,7 @@ select.uk-form-width-xsmall {
   /* 4 */
   background: #fff;
   /* 5 */
-  opacity: 0;
-  transform: translateY(-100px);
+  opacity: 1;
   transition: 0.3s linear;
   transition-property: opacity, transform;
 }

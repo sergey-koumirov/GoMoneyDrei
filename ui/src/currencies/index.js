@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   apiCurrencies,
   apiCurrenciesCreate,
+  apiCurrenciesDelete,
   apiCurrenciesUpdate,
 } from "../api";
 import Table from "./table";
 import Editor from "./editor";
 import { isEmpty } from "lodash";
+import { WithDeleteContext } from "../common/with-delete";
 
 const Currencies = () => {
   const [data, setData] = useState({});
@@ -14,8 +16,17 @@ const Currencies = () => {
   const [record, setRecord] = useState({});
   const [errors, setErrors] = useState({});
 
-  const handleDelete = () => {
-    console.log("handleDelete");
+  const handleDelete = (id, afterCallback) => {
+    apiCurrenciesDelete(id).then(({ errors }) => {
+      if (isEmpty(errors)) {
+        apiCurrencies().then((data) => {
+          setMode("index");
+          setData(data);
+        });
+      }
+
+      afterCallback && afterCallback(errors);
+    });
   };
 
   const handleEdit = (record) => {
@@ -69,12 +80,13 @@ const Currencies = () => {
   return (
     <div className="uk-padding-small uk-padding-remove-top ">
       {mode === "index" && (
-        <Table
-          records={data.records}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-          handleAdd={handleAdd}
-        />
+        <WithDeleteContext handleDelete={handleDelete}>
+          <Table
+            records={data.records}
+            handleEdit={handleEdit}
+            handleAdd={handleAdd}
+          />
+        </WithDeleteContext>
       )}
 
       {mode === "edit" && (

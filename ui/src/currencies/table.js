@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { map } from "lodash";
+import { DeleteContext } from "../common/with-delete";
 
-const Table = ({ records, handleEdit, handleDelete, handleAdd }) => {
+const Table = ({ records, handleEdit, handleAdd }) => {
+  const { handleDeleteClick } = useContext(DeleteContext);
+
   return (
     <table className="uk-table uk-table-small uk-table-grid uk-table-hover uk-table-striped">
       <thead>
@@ -37,7 +40,9 @@ const Table = ({ records, handleEdit, handleDelete, handleAdd }) => {
               &nbsp;&nbsp;
               <button
                 className="uk-button uk-button-micro uk-button-danger hiddenish"
-                onClick={handleDelete}
+                onClick={() => {
+                  handleDeleteClick(record.ID);
+                }}
               >
                 Delete
               </button>

@@ -34,3 +34,9 @@ export const apiCurrenciesUpdate = async (payload) => {
       return { currency, errors };
     });
 };
+
+export const apiCurrenciesDelete = async (id) => {
+  return await apiClient.delete(`/api/currency/${id}`).then((http) => {
+    return http.data;
+  });
+};

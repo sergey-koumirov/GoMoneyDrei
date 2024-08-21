@@ -54,3 +54,25 @@ func CurrencyUpdate(id int64, params map[string]interface{}) (Currency, models.R
 
 	return result, errors
 }
+
+func CurrencyDelete(id int64) models.RecordErrors {
+	errors := make(models.RecordErrors)
+	result := Currency{ID: id}
+
+	validateUsesCurrencyID("id", id, errors)
+
+	if len(errors) == 0 {
+		base.Delete(&result)
+	}
+
+	return errors
+}
+
+func validateUsesCurrencyID(f string, currencyID int64, errors models.RecordErrors) {
+	var count int64
+	base.Model(&Account{}).Where("currency_id = ?", currencyID).Count(&count)
+
+	if count > 0 {
+		errors[f] = append(errors[f], "used in accounts")
+	}
+}
