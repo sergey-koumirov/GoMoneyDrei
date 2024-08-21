@@ -25,7 +25,31 @@ func CurrencyCreate(params map[string]interface{}) (Currency, models.RecordError
 
 	if len(errors) == 0 {
 		result.Tag = "curr"
-		base.Create(&result)
+		err := base.Create(&result).Error
+		if err != nil {
+			errors["base"] = append(errors["base"], err.Error())
+		}
+	}
+
+	return result, errors
+}
+
+func CurrencyUpdate(id int64, params map[string]interface{}) (Currency, models.RecordErrors) {
+	errors := make(models.RecordErrors)
+	result := Currency{ID: id}
+
+	result.Name = strings.TrimSpace(params["Name"].(string))
+	result.Code = strings.TrimSpace(params["Code"].(string))
+
+	validateIsBlank("Name", result.Name, errors)
+	validateIsBlank("Code", result.Code, errors)
+
+	if len(errors) == 0 {
+		result.Tag = "curr"
+		err := base.Save(&result).Error
+		if err != nil {
+			errors["base"] = append(errors["base"], err.Error())
+		}
 	}
 
 	return result, errors

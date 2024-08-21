@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { apiCurrencies, apiCurrenciesCreate } from "../api";
+import {
+  apiCurrencies,
+  apiCurrenciesCreate,
+  apiCurrenciesUpdate,
+} from "../api";
 import Table from "./table";
 import Editor from "./editor";
 import { isEmpty } from "lodash";
@@ -14,12 +18,15 @@ const Currencies = () => {
     console.log("handleDelete");
   };
 
-  const handleEdit = () => {
-    console.log("handleEdit");
+  const handleEdit = (record) => {
+    setRecord(record);
+    setErrors({});
+    setMode("edit");
   };
 
   const handleAdd = () => {
     setRecord({ ID: 0, Name: "", Code: "" });
+    setErrors({});
     setMode("edit");
   };
 
@@ -28,17 +35,29 @@ const Currencies = () => {
   };
 
   const handleSave = (payload) => {
-    apiCurrenciesCreate(payload).then(({ currency, errors }) => {
-      console.log(currency, errors);
-      if (isEmpty(errors)) {
-        apiCurrencies().then((data) => {
-          setMode("index");
-          setData(data);
-        });
-      } else {
-        setErrors(errors);
-      }
-    });
+    if (payload.ID === 0) {
+      apiCurrenciesCreate(payload).then(({ _, errors }) => {
+        if (isEmpty(errors)) {
+          apiCurrencies().then((data) => {
+            setMode("index");
+            setData(data);
+          });
+        } else {
+          setErrors(errors);
+        }
+      });
+    } else {
+      apiCurrenciesUpdate(payload).then(({ _, errors }) => {
+        if (isEmpty(errors)) {
+          apiCurrencies().then((data) => {
+            setMode("index");
+            setData(data);
+          });
+        } else {
+          setErrors(errors);
+        }
+      });
+    }
   };
 
   useEffect(() => {

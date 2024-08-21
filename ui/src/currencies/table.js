@@ -28,7 +28,9 @@ const Table = ({ records, handleEdit, handleDelete, handleAdd }) => {
             <td className="uk-text-right uk-width-small">
               <button
                 className="uk-button uk-button-micro uk-button-primary hiddenish"
-                onClick={handleEdit}
+                onClick={() => {
+                  handleEdit(record);
+                }}
               >
                 Edit
               </button>

@@ -26,3 +26,11 @@ export const apiCurrenciesCreate = async (payload) => {
       return { currency, errors };
     });
 };
+
+export const apiCurrenciesUpdate = async (payload) => {
+  return await apiClient
+    .put(`/api/currency/${payload.ID}`, payload)
+    .then(({ data: { currency, errors } }) => {
+      return { currency, errors };
+    });
+};

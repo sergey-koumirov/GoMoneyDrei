@@ -1,23 +1,15 @@
 import React, { useState } from "react";
 import cn from "classnames";
 import { isEmpty } from "lodash";
+import FieldID from "../common/field-id";
+import BaseErrors from "../common/base-errors";
 
 const Editor = ({ handleCancel, handleSave, initRecord, errors }) => {
   const [record, setRecord] = useState(initRecord);
 
   return (
     <form className="uk-form-horizontal">
-      <div className="uk-margin">
-        <label className="uk-form-label">ID</label>
-        <div className="uk-form-controls">
-          <input
-            className="uk-input uk-form-width-medium uk-form-small"
-            type="text"
-            value={record.ID}
-            disabled
-          />
-        </div>
-      </div>
+      <FieldID record={record} />
 
       <div className="uk-margin">
         <label className="uk-form-label">Name</label>
@@ -32,6 +24,11 @@ const Editor = ({ handleCancel, handleSave, initRecord, errors }) => {
             }}
             type="text"
           />
+          {!isEmpty(errors.Name) && (
+            <span className="uk-padding-small uk-form-danger">
+              {errors.Name.join("; ")}
+            </span>
+          )}
         </div>
       </div>
 
@@ -48,6 +45,11 @@ const Editor = ({ handleCancel, handleSave, initRecord, errors }) => {
             }}
             type="text"
           />
+          {!isEmpty(errors.Code) && (
+            <span className="uk-padding-small uk-form-danger">
+              {errors.Code.join("; ")}
+            </span>
+          )}
         </div>
       </div>
 
@@ -69,10 +71,12 @@ const Editor = ({ handleCancel, handleSave, initRecord, errors }) => {
               handleSave(record);
             }}
           >
-            Save
+            {record.ID === 0 ? "Add" : "Save"}
           </button>
         </div>
       </div>
+
+      <BaseErrors errors={errors} />
     </form>
   );
 };
