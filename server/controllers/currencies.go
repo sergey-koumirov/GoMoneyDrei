@@ -32,6 +32,7 @@ func CurrencyUpdate(c *gin.Context) {
 	c.JSON(200, gin.H{"currency": currency, "errors": errors})
 }
 
+// CurrenciesDelete - delete
 func CurrencyDelete(c *gin.Context) {
 	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
 

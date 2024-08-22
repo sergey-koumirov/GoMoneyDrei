@@ -13,13 +13,14 @@ export const apiReports = async () => {
   });
 };
 
+// Currencies
 export const apiCurrencies = async () => {
   return await apiClient.get(`/api/currencies`).then((http) => {
     return http.data;
   });
 };
 
-export const apiCurrenciesCreate = async (payload) => {
+export const apiCurrencyCreate = async (payload) => {
   return await apiClient
     .post(`/api/currencies`, payload)
     .then(({ data: { currency, errors } }) => {
@@ -27,7 +28,7 @@ export const apiCurrenciesCreate = async (payload) => {
     });
 };
 
-export const apiCurrenciesUpdate = async (payload) => {
+export const apiCurrencyUpdate = async (payload) => {
   return await apiClient
     .put(`/api/currency/${payload.ID}`, payload)
     .then(({ data: { currency, errors } }) => {
@@ -35,8 +36,37 @@ export const apiCurrenciesUpdate = async (payload) => {
     });
 };
 
-export const apiCurrenciesDelete = async (id) => {
+export const apiCurrencyDelete = async (id) => {
   return await apiClient.delete(`/api/currency/${id}`).then((http) => {
+    return http.data;
+  });
+};
+
+// Accounts
+export const apiAccounts = async () => {
+  return await apiClient.get(`/api/accounts`).then((http) => {
+    return http.data;
+  });
+};
+
+export const apiAccountCreate = async (payload) => {
+  return await apiClient
+    .post(`/api/accounts`, payload)
+    .then(({ data: { currency, errors } }) => {
+      return { currency, errors };
+    });
+};
+
+export const apiAccountUpdate = async (payload) => {
+  return await apiClient
+    .put(`/api/account/${payload.ID}`, payload)
+    .then(({ data: { currency, errors } }) => {
+      return { currency, errors };
+    });
+};
+
+export const apiAccountDelete = async (id) => {
+  return await apiClient.delete(`/api/account/${id}`).then((http) => {
     return http.data;
   });
 };

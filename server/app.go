@@ -28,5 +28,10 @@ func main() {
 	r.PUT("/api/currency/:id", controllers.CurrencyUpdate)
 	r.DELETE("/api/currency/:id", controllers.CurrencyDelete)
 
+	r.GET("/api/accounts", controllers.Accounts)
+	r.POST("/api/accounts", controllers.AccountCreate)
+	r.PUT("/api/account/:id", controllers.AccountUpdate)
+	r.DELETE("/api/account/:id", controllers.AccountDelete)
+
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

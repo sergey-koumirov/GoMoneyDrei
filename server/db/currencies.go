@@ -17,11 +17,7 @@ func CurrencyCreate(params map[string]interface{}) (Currency, models.RecordError
 	errors := make(models.RecordErrors)
 	result := Currency{}
 
-	result.Name = strings.TrimSpace(params["Name"].(string))
-	result.Code = strings.TrimSpace(params["Code"].(string))
-
-	validateIsBlank("Name", result.Name, errors)
-	validateIsBlank("Code", result.Code, errors)
+	currencyParseValidate(params, &result, errors)
 
 	if len(errors) == 0 {
 		result.Tag = "curr"
@@ -38,11 +34,7 @@ func CurrencyUpdate(id int64, params map[string]interface{}) (Currency, models.R
 	errors := make(models.RecordErrors)
 	result := Currency{ID: id}
 
-	result.Name = strings.TrimSpace(params["Name"].(string))
-	result.Code = strings.TrimSpace(params["Code"].(string))
-
-	validateIsBlank("Name", result.Name, errors)
-	validateIsBlank("Code", result.Code, errors)
+	currencyParseValidate(params, &result, errors)
 
 	if len(errors) == 0 {
 		result.Tag = "curr"
@@ -66,6 +58,14 @@ func CurrencyDelete(id int64) models.RecordErrors {
 	}
 
 	return errors
+}
+
+func currencyParseValidate(params map[string]interface{}, result *Currency, errors models.RecordErrors) {
+	result.Name = strings.TrimSpace(params["Name"].(string))
+	result.Code = strings.TrimSpace(params["Code"].(string))
+
+	validateIsBlank("Name", result.Name, errors)
+	validateIsBlank("Code", result.Code, errors)
 }
 
 func validateUsesCurrencyID(f string, currencyID int64, errors models.RecordErrors) {

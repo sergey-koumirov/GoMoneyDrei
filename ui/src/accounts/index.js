@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
 import {
-  apiCurrencies,
-  apiCurrencyCreate,
-  apiCurrencyDelete,
-  apiCurrencyUpdate,
+  apiAccounts,
+  apiAccountCreate,
+  apiAccountUpdate,
+  apiAccountDelete,
 } from "../api";
 import Table from "./table";
 import Editor from "./editor";
 import { isEmpty } from "lodash";
 import { WithDeleteContext } from "../common/with-delete";
 
-const Currencies = () => {
+const Accounts = () => {
   const [data, setData] = useState({});
   const [mode, setMode] = useState("index");
   const [record, setRecord] = useState({});
   const [errors, setErrors] = useState({});
 
   const handleDelete = (id, afterCallback) => {
-    apiCurrencyDelete(id).then(({ errors }) => {
+    apiAccountDelete(id).then(({ errors }) => {
       if (isEmpty(errors)) {
-        apiCurrencies().then((data) => {
+        apiAccounts().then((data) => {
           setMode("index");
           setData(data);
         });
@@ -36,7 +36,14 @@ const Currencies = () => {
   };
 
   const handleAdd = () => {
-    setRecord({ ID: 0, Name: "", Code: "" });
+    setRecord({
+      ID: 0,
+      Name: "",
+      Tag: "",
+      Visible: 1,
+      CurrencyCode: "",
+      CurrencyID: "",
+    });
     setErrors({});
     setMode("edit");
   };
@@ -47,9 +54,9 @@ const Currencies = () => {
 
   const handleSave = (payload) => {
     if (payload.ID === 0) {
-      apiCurrencyCreate(payload).then(({ _, errors }) => {
+      apiAccountCreate(payload).then(({ _, errors }) => {
         if (isEmpty(errors)) {
-          apiCurrencies().then((data) => {
+          apiAccounts().then((data) => {
             setMode("index");
             setData(data);
           });
@@ -58,9 +65,9 @@ const Currencies = () => {
         }
       });
     } else {
-      apiCurrencyUpdate(payload).then(({ _, errors }) => {
+      apiAccountUpdate(payload).then(({ _, errors }) => {
         if (isEmpty(errors)) {
-          apiCurrencies().then((data) => {
+          apiAccounts().then((data) => {
             setMode("index");
             setData(data);
           });
@@ -72,7 +79,8 @@ const Currencies = () => {
   };
 
   useEffect(() => {
-    apiCurrencies().then((data) => {
+    apiAccounts().then((data) => {
+      console.log(data);
       setData(data);
     });
   }, []);
@@ -94,6 +102,7 @@ const Currencies = () => {
           handleCancel={handleCancel}
           handleSave={handleSave}
           initRecord={record}
+          currencies={data.currencies}
           errors={errors}
         />
       )}
@@ -101,4 +110,4 @@ const Currencies = () => {
   );
 };
 
-export default Currencies;
+export default Accounts;

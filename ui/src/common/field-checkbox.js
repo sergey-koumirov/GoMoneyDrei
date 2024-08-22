@@ -1,11 +1,10 @@
 import React from "react";
-import cn from "classnames";
 import { isEmpty } from "lodash";
 
-const FieldText = ({ label, field, record, setRecord, errors }) => {
+const FieldCheckbox = ({ label, field, record, setRecord, errors }) => {
   const handleChange = (e) => {
     const newRecord = { ...record };
-    newRecord[field] = e.target.value;
+    newRecord[field] = e.target.checked ? 1 : 0;
     setRecord(newRecord);
   };
 
@@ -14,13 +13,12 @@ const FieldText = ({ label, field, record, setRecord, errors }) => {
       <label className="uk-form-label">{label}</label>
       <div className="uk-form-controls">
         <input
-          className={cn("uk-input uk-form-width-medium uk-form-small", {
-            "uk-form-danger": !isEmpty(errors[field]),
-          })}
-          value={record[field]}
+          className="uk-checkbox"
+          type="checkbox"
+          checked={record[field] === 1}
           onChange={handleChange}
-          type="text"
         />
+
         {!isEmpty(errors[field]) && (
           <span className="uk-padding-small uk-form-danger">
             {errors[field].join("; ")}
@@ -31,4 +29,4 @@ const FieldText = ({ label, field, record, setRecord, errors }) => {
   );
 };
 
-export default FieldText;
+export default FieldCheckbox;

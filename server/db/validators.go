@@ -3,6 +3,7 @@ package db
 import (
 	"GoMoneyDrei/server/models"
 	"fmt"
+	"reflect"
 	"time"
 )
 
@@ -17,8 +18,8 @@ func validateIsDate(f string, v string, errors models.RecordErrors) bool {
 	return true
 }
 
-func validateIsNil(f string, v interface{}, errors models.RecordErrors) bool {
-	if v == nil {
+func validateIsEmpty(f string, v interface{}, errors models.RecordErrors) bool {
+	if v == nil || reflect.TypeOf(v).Name() == "string" && len(v.(string)) == 0 {
 		errors[f] = append(errors[f], "is blank")
 		return true
 	}
@@ -31,7 +32,7 @@ func validateIsBlank(f string, v string, errors models.RecordErrors) {
 	}
 }
 
-func validateInSet(f string, v string, enums []string, errors models.RecordErrors) {
+func validateInSet[C string | int64](f string, v C, enums []C, errors models.RecordErrors) {
 	index := -1
 
 	for i, e := range enums {
