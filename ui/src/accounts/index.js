@@ -4,14 +4,17 @@ import {
   apiAccountCreate,
   apiAccountUpdate,
   apiAccountDelete,
+  apiAccountReport,
 } from "../api";
 import Table from "./table";
 import Editor from "./editor";
+import Report from "./report";
 import { isEmpty } from "lodash";
 import { WithDeleteContext } from "../common/with-delete";
 
 const Accounts = () => {
   const [data, setData] = useState({});
+  const [reportData, setReportData] = useState({});
   const [mode, setMode] = useState("index");
   const [record, setRecord] = useState({});
   const [errors, setErrors] = useState({});
@@ -78,9 +81,16 @@ const Accounts = () => {
     }
   };
 
+  const handleReport = (id) => {
+    apiAccountReport(id).then((data) => {
+      setMode("report");
+      setReportData(data);
+      console.log("report", data);
+    });
+  };
+
   useEffect(() => {
     apiAccounts().then((data) => {
-      console.log(data);
       setData(data);
     });
   }, []);
@@ -93,6 +103,7 @@ const Accounts = () => {
             records={data.records}
             handleEdit={handleEdit}
             handleAdd={handleAdd}
+            handleReport={handleReport}
           />
         </WithDeleteContext>
       )}
@@ -104,6 +115,15 @@ const Accounts = () => {
           initRecord={record}
           currencies={data.currencies}
           errors={errors}
+        />
+      )}
+
+      {mode === "report" && (
+        <Report
+          data={reportData}
+          handleBack={() => {
+            setMode("index");
+          }}
         />
       )}
     </div>

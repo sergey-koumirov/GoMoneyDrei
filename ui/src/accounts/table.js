@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { map } from "lodash";
 import { DeleteContext } from "../common/with-delete";
+import cn from "classnames";
 
-const Table = ({ records, handleEdit, handleAdd }) => {
+const Table = ({ records, handleEdit, handleAdd, handleReport }) => {
   const { handleDeleteClick } = useContext(DeleteContext);
 
   return (
@@ -34,7 +35,9 @@ const Table = ({ records, handleEdit, handleAdd }) => {
             <td className="uk-text-center">
               {record.Visible === 0 ? "HIDDEN" : ""}
             </td>
-            <td className="uk-text-center">{record.Tag}</td>
+            <td className={cn("uk-text-center", `clr-${record.Tag}`)}>
+              {record.Tag}
+            </td>
             <td className="uk-text-right">
               {record.LastUsedDays > 365 ? record.LastUsedDays : ""}
             </td>
@@ -42,7 +45,7 @@ const Table = ({ records, handleEdit, handleAdd }) => {
               <button
                 className="uk-button uk-button-micro uk-button-primary hiddenish"
                 onClick={() => {
-                  handleReport(record);
+                  handleReport(record.ID);
                 }}
               >
                 Report

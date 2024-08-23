@@ -45,3 +45,11 @@ func AccountDelete(c *gin.Context) {
 
 	c.JSON(200, gin.H{"errors": errors})
 }
+
+func AccountReport(c *gin.Context) {
+	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+
+	data := db.AccountReport(id)
+
+	c.JSON(200, data)
+}

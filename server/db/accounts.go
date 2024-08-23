@@ -4,7 +4,6 @@ import (
 	"GoMoneyDrei/server/models"
 	"fmt"
 	"strings"
-	"time"
 )
 
 func Accounts() []models.AccountRow {
@@ -37,12 +36,7 @@ func Accounts() []models.AccountRow {
 		lastUsedDt := ""
 		rows.Scan(&item.ID, &item.Name, &item.Tag, &item.Visible, &item.CurrencyCode, &item.CurrencyID, &lastUsedDt)
 
-		dt, dtErr := time.Parse(time.DateOnly, lastUsedDt)
-		if dtErr != nil {
-			item.LastUsedDays = 999999999
-		} else {
-			item.LastUsedDays = int64(time.Since(dt).Hours() / 24)
-		}
+		item.SetLastUsedDays(lastUsedDt)
 
 		result = append(result, item)
 	}
@@ -93,6 +87,65 @@ func AccountDelete(id int64) models.RecordErrors {
 	}
 
 	return errors
+}
+
+func AccountReport(id int64) models.AccountReport {
+	dbRecord := Account{ID: id}
+	base.Preload("Currency").Find(&dbRecord)
+
+	record := models.AccountRow{
+		ID:           dbRecord.ID,
+		Name:         dbRecord.Name,
+		Tag:          dbRecord.Tag,
+		Visible:      dbRecord.Visible,
+		CurrencyID:   dbRecord.CurrencyID,
+		CurrencyCode: dbRecord.Currency.Code,
+	}
+
+	transaction := Transaction{}
+	base.Where("account_from_id = ? or account_to_id = ?", id, id).Order("dt desc, id").Limit(1).Find(&transaction)
+
+	record.SetLastUsedDays(transaction.Dt)
+
+	expenseSums := []models.MonthSum{}
+
+	irows, _ := base.Raw(
+		`SELECT substr(dt,1,7) as ym, sum(amount_from) as s
+			from transactions 
+			where account_from_id = ?
+			group by substr(dt,1,7)
+			order by substr(dt,1,7) desc`,
+		id,
+	).Rows()
+
+	for irows.Next() {
+		item := models.MonthSum{}
+		irows.Scan(&item.YearMonth, &item.Sum)
+		expenseSums = append(expenseSums, item)
+	}
+
+	incomeSums := []models.MonthSum{}
+
+	erows, _ := base.Raw(
+		`SELECT substr(dt,1,7) as ym, sum(amount_to) as s
+			from transactions 
+			where account_to_id = ?
+			group by substr(dt,1,7)
+			order by substr(dt,1,7) desc`,
+		id,
+	).Rows()
+
+	for erows.Next() {
+		item := models.MonthSum{}
+		erows.Scan(&item.YearMonth, &item.Sum)
+		incomeSums = append(incomeSums, item)
+	}
+
+	return models.AccountReport{
+		Record:      record,
+		IncomeSums:  incomeSums,
+		ExpenseSums: expenseSums,
+	}
 }
 
 func accountParseValidate(params map[string]interface{}, result *Account, errors models.RecordErrors) {

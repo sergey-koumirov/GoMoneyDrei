@@ -70,3 +70,9 @@ export const apiAccountDelete = async (id) => {
     return http.data;
   });
 };
+
+export const apiAccountReport = async (id) => {
+  return await apiClient.get(`/api/account/${id}/report`).then((http) => {
+    return http.data;
+  });
+};
