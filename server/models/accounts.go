@@ -26,3 +26,9 @@ type AccountReport struct {
 	IncomeSums  []MonthSum
 	ExpenseSums []MonthSum
 }
+
+type AccountsPage struct {
+	Records  []AccountRow
+	Index    int
+	MaxIndex int
+}

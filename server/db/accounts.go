@@ -3,11 +3,17 @@ package db
 import (
 	"GoMoneyDrei/server/models"
 	"fmt"
+	"math"
 	"strings"
 )
 
-func Accounts() []models.AccountRow {
+const ACCOUNTS_PER_PAGE = 30
+
+func AccountsData(page int) models.AccountsPage {
 	result := []models.AccountRow{}
+
+	var count int64
+	base.Model(Account{}).Where("tag <> 'stocks'").Count(&count)
 
 	rows, err := base.Raw(
 		`select a.id, 
@@ -23,7 +29,10 @@ func Accounts() []models.AccountRow {
 			from accounts a
 			       inner join currencies c on c.id = a.currency_id
 			where a.tag <> 'stocks'
-			order by a.tag, a.id`,
+			order by a.tag, a.id
+			limit ? offset ?`,
+		ACCOUNTS_PER_PAGE,
+		ACCOUNTS_PER_PAGE*(page-1),
 	).Rows()
 
 	if err != nil {
@@ -41,7 +50,11 @@ func Accounts() []models.AccountRow {
 		result = append(result, item)
 	}
 
-	return result
+	return models.AccountsPage{
+		Records:  result,
+		Index:    page,
+		MaxIndex: int(math.Ceil(float64(count) / float64(ACCOUNTS_PER_PAGE))),
+	}
 }
 
 func AccountCreate(params map[string]interface{}) (Account, models.RecordErrors) {

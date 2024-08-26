@@ -41,7 +41,9 @@ const Report = ({ data, handleBack }) => {
       <div>
         <h5>In</h5>
         {!data.IncomeSums.length && <span className="uk-form-danger">N/A</span>}
-        {!!data.IncomeSums.length && <TableYearMonth records={data.IncomeSums} />}
+        {!!data.IncomeSums.length && (
+          <TableYearMonth records={data.IncomeSums} />
+        )}
       </div>
 
       <div>
@@ -49,7 +51,9 @@ const Report = ({ data, handleBack }) => {
         {!data.ExpenseSums.length && (
           <span className="uk-form-danger">N/A</span>
         )}
-        {!!data.ExpenseSums.length && <TableYearMonth records={data.ExpenseSums} />}
+        {!!data.ExpenseSums.length && (
+          <TableYearMonth records={data.ExpenseSums} />
+        )}
       </div>
 
       <div>

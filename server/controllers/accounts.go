@@ -9,10 +9,15 @@ import (
 )
 
 func Accounts(c *gin.Context) {
+	page, err1 := strconv.Atoi(c.Query("page"))
+	if err1 != nil {
+		page = 1
+	}
+
 	c.JSON(
 		http.StatusOK,
 		gin.H{
-			"records":    db.Accounts(),
+			"info":       db.AccountsData(page),
 			"currencies": db.Currencies(),
 		},
 	)

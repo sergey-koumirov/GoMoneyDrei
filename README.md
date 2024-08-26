@@ -12,4 +12,4 @@ npx webpack --config webpack.config.js --watch
 npx prettier . --write
 
 # TODO
-- account report (income/expense by month/year)
+- account union (select 2 accounts, move all transactions from second to first, delete second)

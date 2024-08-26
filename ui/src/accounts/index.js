@@ -18,11 +18,12 @@ const Accounts = () => {
   const [mode, setMode] = useState("index");
   const [record, setRecord] = useState({});
   const [errors, setErrors] = useState({});
+  const [page, setPage] = useState(1);
 
   const handleDelete = (id, afterCallback) => {
     apiAccountDelete(id).then(({ errors }) => {
       if (isEmpty(errors)) {
-        apiAccounts().then((data) => {
+        apiAccounts(page).then((data) => {
           setMode("index");
           setData(data);
         });
@@ -59,7 +60,7 @@ const Accounts = () => {
     if (payload.ID === 0) {
       apiAccountCreate(payload).then(({ _, errors }) => {
         if (isEmpty(errors)) {
-          apiAccounts().then((data) => {
+          apiAccounts(page).then((data) => {
             setMode("index");
             setData(data);
           });
@@ -70,7 +71,7 @@ const Accounts = () => {
     } else {
       apiAccountUpdate(payload).then(({ _, errors }) => {
         if (isEmpty(errors)) {
-          apiAccounts().then((data) => {
+          apiAccounts(page).then((data) => {
             setMode("index");
             setData(data);
           });
@@ -85,25 +86,32 @@ const Accounts = () => {
     apiAccountReport(id).then((data) => {
       setMode("report");
       setReportData(data);
-      console.log("report", data);
+    });
+  };
+
+  const handlePageChange = (newPage) => {
+    apiAccounts(newPage).then((data) => {
+      setPage(newPage);
+      setData(data);
     });
   };
 
   useEffect(() => {
-    apiAccounts().then((data) => {
+    apiAccounts(page).then((data) => {
       setData(data);
     });
   }, []);
 
   return (
     <div className="uk-padding-small uk-padding-remove-top ">
-      {mode === "index" && (
+      {mode === "index" && data.info && (
         <WithDeleteContext handleDelete={handleDelete}>
           <Table
-            records={data.records}
+            info={data.info}
             handleEdit={handleEdit}
             handleAdd={handleAdd}
             handleReport={handleReport}
+            handlePageChange={handlePageChange}
           />
         </WithDeleteContext>
       )}

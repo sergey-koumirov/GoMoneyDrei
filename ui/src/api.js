@@ -43,8 +43,8 @@ export const apiCurrencyDelete = async (id) => {
 };
 
 // Accounts
-export const apiAccounts = async () => {
-  return await apiClient.get(`/api/accounts`).then((http) => {
+export const apiAccounts = async (page) => {
+  return await apiClient.get(`/api/accounts?page=${page}`).then((http) => {
     return http.data;
   });
 };
