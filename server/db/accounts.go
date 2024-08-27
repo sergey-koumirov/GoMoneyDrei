@@ -57,6 +57,34 @@ func AccountsData(page int) models.AccountsPage {
 	}
 }
 
+func Accounts(tags []string) []models.AccountShort {
+	rows, err := base.Raw(
+		`select a.id, 
+		        a.name, 
+				c.code
+			from accounts a
+			       inner join currencies c on c.id = a.currency_id
+			where a.tag in ?
+			order by a.tag, a.id`,
+		tags,
+	).Rows()
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer rows.Close()
+
+	result := []models.AccountShort{}
+	for rows.Next() {
+		item := models.AccountShort{}
+		rows.Scan(&item.ID, &item.Name, &item.CurrencyCode)
+
+		result = append(result, item)
+	}
+
+	return result
+}
+
 func AccountCreate(params map[string]interface{}) (Account, models.RecordErrors) {
 	errors := make(models.RecordErrors)
 	result := Account{}

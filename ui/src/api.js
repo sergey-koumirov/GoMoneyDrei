@@ -76,3 +76,32 @@ export const apiAccountReport = async (id) => {
     return http.data;
   });
 };
+
+// Transactions
+export const apiTransactions = async (page) => {
+  return await apiClient.get(`/api/transactions?page=${page}`).then((http) => {
+    return http.data;
+  });
+};
+
+export const apiTransactionCreate = async (payload) => {
+  return await apiClient
+    .post(`/api/transactions`, payload)
+    .then(({ data: { currency, errors } }) => {
+      return { currency, errors };
+    });
+};
+
+export const apiTransactionUpdate = async (payload) => {
+  return await apiClient
+    .put(`/api/transaction/${payload.ID}`, payload)
+    .then(({ data: { currency, errors } }) => {
+      return { currency, errors };
+    });
+};
+
+export const apiTransactionDelete = async (id) => {
+  return await apiClient.delete(`/api/transaction/${id}`).then((http) => {
+    return http.data;
+  });
+};

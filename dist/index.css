@@ -12996,17 +12996,22 @@ button.hiddenish {
 }
 
 .clr-balance{
-  color: #0049B7;
+  color: #60A9E7;
   font-weight: bold;
 }
 
 .clr-expense{
-  color: #ff1d58;
+  color: #Df6d68;
   font-weight: bold;
 }
 
 .clr-income{
-  color: #59ce8f;
+  color: #29ce5f;
+  font-weight: bold;
+}
+
+.clr-stocks{
+  color: #FF8C00;
   font-weight: bold;
 }
 
@@ -13032,4 +13037,20 @@ button.hiddenish {
 
 .uk-form-controls select.uk-form-danger {
   border-color: #f0506e;
+}
+
+.uk-table sub {
+  color: #808080;
+}
+
+.tr-today {
+  background-color: #fffaf2;
+}
+
+.tr-stripe1 {
+  background-color: #fafff2;
+}
+
+.tr-stripe2 {
+  background-color: #fffffa;
 }

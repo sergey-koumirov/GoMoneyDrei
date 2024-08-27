@@ -12,6 +12,12 @@ type AccountRow struct {
 	CurrencyID   int64
 }
 
+type AccountShort struct {
+	ID           int64
+	Name         string
+	CurrencyCode string
+}
+
 func (item *AccountRow) SetLastUsedDays(lastUsedDt string) {
 	dt, dtErr := time.Parse(time.DateOnly, lastUsedDt)
 	if dtErr != nil {

@@ -34,5 +34,7 @@ func main() {
 	r.DELETE("/api/account/:id", controllers.AccountDelete)
 	r.GET("/api/account/:id/report", controllers.AccountReport)
 
+	r.GET("/api/transactions", controllers.Transactions)
+
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

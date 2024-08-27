@@ -4,7 +4,13 @@ import { DeleteContext } from "../common/with-delete";
 import cn from "classnames";
 import Pagination from "../common/pagination";
 
-const Table = ({ info, handleEdit, handleAdd, handleReport, handlePageChange }) => {
+const Table = ({
+  info,
+  handleEdit,
+  handleAdd,
+  handleReport,
+  handlePageChange,
+}) => {
   const { handleDeleteClick } = useContext(DeleteContext);
 
   return (

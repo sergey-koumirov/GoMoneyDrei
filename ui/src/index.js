@@ -4,9 +4,10 @@ import Report from "./report";
 import Menu from "./menu";
 import Currencies from "./currencies";
 import Accounts from "./accounts";
+import Transactions from "./transactions";
 
 const App = () => {
-  const [tab, setTab] = useState("accounts");
+  const [tab, setTab] = useState("transactions");
 
   return (
     <>
@@ -14,6 +15,7 @@ const App = () => {
       {tab == "report" && <Report />}
       {tab == "accounts" && <Accounts />}
       {tab == "currencies" && <Currencies />}
+      {tab == "transactions" && <Transactions />}
     </>
   );
 };
