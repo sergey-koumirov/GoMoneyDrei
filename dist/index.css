@@ -13060,3 +13060,16 @@ button.hiddenish {
 .tr-stripe2 {
   background-color: #fffffa;
 }
+
+.nailed {
+  font-size: 10px;
+  background: #ffffff;
+  width: 300px;
+  position: fixed;
+  right: 5px;
+  bottom: 5px;
+}
+
+.filter {
+  cursor: pointer;
+}

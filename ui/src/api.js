@@ -78,10 +78,25 @@ export const apiAccountReport = async (id) => {
 };
 
 // Transactions
-export const apiTransactions = async (page) => {
-  return await apiClient.get(`/api/transactions?page=${page}`).then((http) => {
-    return http.data;
-  });
+export const apiTransactions = async (page, filter) => {
+  const params = [];
+  if (!!page) {
+    params.push(`page=${page}`);
+  }
+
+  if (!!filter.fromID) {
+    params.push(`fromID=${filter.fromID}`);
+  }
+
+  if (!!filter.toID) {
+    params.push(`toID=${filter.toID}`);
+  }
+
+  return await apiClient
+    .get(`/api/transactions?${params.join("&")}`)
+    .then((http) => {
+      return http.data;
+    });
 };
 
 export const apiTransactionCreate = async (payload) => {

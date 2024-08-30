@@ -3,7 +3,8 @@ import { map } from "lodash";
 import { DeleteContext } from "../common/with-delete";
 import cn from "classnames";
 import Pagination from "../common/pagination";
-import { money } from "../formatters";
+import { money, stock } from "../formatters";
+import { FilterContext } from "..";
 
 const Table = ({
   info,
@@ -14,6 +15,7 @@ const Table = ({
   handleTemplate,
 }) => {
   const { handleDeleteClick } = useContext(DeleteContext);
+  const { filter, setFilter } = useContext(FilterContext);
 
   let stripeN = 1;
   let trClass = "tr-stripe1";
@@ -21,6 +23,10 @@ const Table = ({
   const onTemplateClick = (ev, template) => {
     ev.preventDefault();
     handleTemplate(template);
+  };
+
+  const handleResetFilter = () => {
+    setFilter({ fromID: 0, toID: 0 });
   };
 
   return (
@@ -47,6 +53,18 @@ const Table = ({
             <th className="uk-text-center">To</th>
             <th className="uk-text-center">Notes</th>
             <th className="uk-text-right uk-width-small">
+              {(!!filter.fromID || !!filter.toID) && (
+                <>
+                  <button
+                    onClick={handleResetFilter}
+                    className="uk-button uk-button-primary uk-button-micro"
+                  >
+                    Reset
+                  </button>
+                  &nbsp;
+                </>
+              )}
+
               <button
                 onClick={handleAdd}
                 className="uk-button uk-button-primary uk-button-micro"
@@ -80,13 +98,27 @@ const Table = ({
               <tr key={record.ID} className={trClass}>
                 <td className="uk-text-center">{record.Dt}</td>
                 <td className={cn(`clr-${record.AccountFromTag}`)}>
-                  {record.AccountFromName}
+                  <span
+                    className="filter"
+                    onClick={() => {
+                      setFilter({ fromID: record.AccountFromID, toID: 0 });
+                    }}
+                  >
+                    {record.AccountFromName}
+                  </span>
                 </td>
                 <td className="uk-text-right">
                   <AmountText record={record} />
                 </td>
                 <td className={cn(`clr-${record.AccountToTag}`)}>
-                  {record.AccountToName}
+                  <span
+                    className="filter"
+                    onClick={() => {
+                      setFilter({ fromID: 0, toID: record.AccountToID });
+                    }}
+                  >
+                    {record.AccountToName}
+                  </span>
                 </td>
                 <td>{record.Description}</td>
                 <td className="uk-text-right uk-width-small">
@@ -130,7 +162,11 @@ const AmountText = ({ record }) => {
         : `clr-${record.AccountFromTag}`;
     return (
       <>
-        <span className={spanClass}>{money(record.AmountFrom)}</span>
+        <span className={spanClass}>
+          {record.AccountFromTag === "stocks"
+            ? stock(record.AmountFrom)
+            : money(record.AmountFrom)}
+        </span>
         <sub>&nbsp;{record.CurrencyFromCode}</sub>
       </>
     );
@@ -139,12 +175,16 @@ const AmountText = ({ record }) => {
   return (
     <>
       <span className={cn(`clr-${record.AccountFromTag}`)}>
-        {money(record.AmountFrom)}
+        {record.AccountFromTag === "stocks"
+          ? stock(record.AmountFrom)
+          : money(record.AmountFrom)}
       </span>
       <sub>&nbsp;{record.CurrencyFromCode}</sub>
       &nbsp;-&gt;&nbsp;
       <span className={cn(`clr-${record.AccountToTag}`)}>
-        {money(record.AmountTo)}
+        {record.AccountToTag === "stocks"
+          ? stock(record.AmountTo)
+          : money(record.AmountTo)}
       </span>
       <sub>&nbsp;{record.CurrencyToCode}</sub>
     </>

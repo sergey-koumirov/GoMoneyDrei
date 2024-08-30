@@ -10,14 +10,29 @@ import (
 
 const TRANSACTIONS_PER_PAGE = 30
 
-func TransactionsData(page int) models.TransactionsPage {
+func TransactionsData(page int, fromID int, toID int) models.TransactionsPage {
 	result := []models.TransactionRow{}
 
+	whereSql := ""
+	if fromID != 0 && toID == 0 {
+		whereSql = fmt.Sprintf("where t.account_from_id = %d or t.account_to_id = %d", fromID, fromID)
+	}
+	if fromID == 0 && toID != 0 {
+		whereSql = fmt.Sprintf("where t.account_from_id = %d or t.account_to_id = %d", toID, toID)
+	}
+	if fromID != 0 && toID != 0 {
+		whereSql = fmt.Sprintf("where t.account_from_id = %d and t.account_to_id = %d", fromID, toID)
+	}
+
 	var count int64
-	base.Model(Transaction{}).Count(&count)
+	rowsCnt, _ := base.Raw(fmt.Sprintf("select count(*) from transactions t %s", whereSql)).Rows()
+	defer rowsCnt.Close()
+	rowsCnt.Next()
+	rowsCnt.Scan(&count)
 
 	rows, err := base.Raw(
-		`select t.id, 
+		fmt.Sprintf(
+			`select t.id, 
 		        t.dt, 
 				t.description,
 
@@ -37,8 +52,11 @@ func TransactionsData(page int) models.TransactionsPage {
 				   inner join currencies cf on cf.id = af.currency_id
 				   inner join accounts at on at.id = t.account_to_id
 				   inner join currencies ct on ct.id = at.currency_id
+			%s	   
 			order by t.dt desc, t.id
 			limit ? offset ?`,
+			whereSql,
+		),
 		TRANSACTIONS_PER_PAGE,
 		TRANSACTIONS_PER_PAGE*(page-1),
 	).Rows()

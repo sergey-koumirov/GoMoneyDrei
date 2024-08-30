@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { createRoot } from "react-dom/client";
 import Report from "./report";
 import Menu from "./menu";
@@ -7,18 +7,23 @@ import Accounts from "./accounts";
 import Transactions from "./transactions";
 import Templates from "./templates";
 
+export const FilterContext = createContext({});
+
 const App = () => {
-  const [tab, setTab] = useState("report");
+  const [tab, setTab] = useState("transactions");
+  const [filter, setFilter] = useState({ fromID: 0, toID: 0 });
+
+  const dd = { filter, setFilter, setTab };
 
   return (
-    <>
+    <FilterContext.Provider value={dd}>
       <Menu tab={tab} setTab={setTab} />
       {tab == "report" && <Report />}
       {tab == "accounts" && <Accounts />}
       {tab == "templates" && <Templates />}
       {tab == "currencies" && <Currencies />}
       {tab == "transactions" && <Transactions />}
-    </>
+    </FilterContext.Provider>
   );
 };
 

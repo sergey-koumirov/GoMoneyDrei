@@ -1,7 +1,7 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState } from "react";
 import { apiReports } from "../api";
-import { map } from "lodash";
-import { money, percent } from "../formatters";
+import MoneyTable from "../common/money-table";
+
 const Report = () => {
   const [data, setData] = useState({});
 
@@ -31,7 +31,7 @@ const Report = () => {
           </div>
         </div>
 
-        <h5>Prev Month</h5>
+        <h5>{data.PreviousMonth}</h5>
         <div className="uk-grid uk-padding-small uk-padding-remove-top">
           <div className="uk-width-1-2@s">
             <MoneyTable records={data.PreviousIncomes} />
@@ -52,56 +52,6 @@ const Report = () => {
         </div>
       </div>
     </div>
-  );
-};
-
-const MoneyTable = ({ records, showPart = true }) => {
-  return (
-    <table className="uk-table uk-table-striped uk-table-small uk-table-grid">
-      <tbody>
-        {map(records, (info, index) => (
-          <Fragment key={info.CurrencyCode}>
-            <tr>
-              <th>{info.CurrencyCode}</th>
-              <td></td>
-              <td className="money">{money(info.Total)}</td>
-              {showPart && (
-                <>
-                  <td></td>
-                  <td></td>
-                </>
-              )}
-            </tr>
-            {map(info.Records, (rec) => (
-              <tr key={rec.ID}>
-                <td></td>
-                <th>{rec.Name}</th>
-                <td className="money">{money(rec.Amount)}</td>
-                {showPart && (
-                  <>
-                    <td className="uk-text-right">{percent(rec.Part)}</td>
-                    <td className="uk-text-right">{percent(rec.PartSum)}</td>
-                  </>
-                )}
-              </tr>
-            ))}
-            {index !== records.length - 1 && (
-              <tr>
-                <td>&nbsp;</td>
-                <td></td>
-                <td></td>
-                {showPart && (
-                  <>
-                    <td></td>
-                    <td></td>
-                  </>
-                )}
-              </tr>
-            )}
-          </Fragment>
-        ))}
-      </tbody>
-    </table>
   );
 };
 

@@ -7,6 +7,13 @@ const Pagination = ({ page, max, onChange }) => {
     onChange && onChange(parseInt(ev.target.value));
   };
 
+  const handleFirst = (ev) => {
+    ev.preventDefault();
+    if (page - 1 >= 1 && onChange) {
+      onChange(1);
+    }
+  };
+
   const handlePrev = (ev) => {
     ev.preventDefault();
     if (page - 1 >= 1 && onChange) {
@@ -24,6 +31,12 @@ const Pagination = ({ page, max, onChange }) => {
   return (
     <nav>
       <ul className="uk-pagination uk-flex-left">
+        <li className={cn({ "uk-disabled": page === 1 })}>
+          <a href="#" onClick={handleFirst}>
+            First
+          </a>
+        </li>
+
         <li className={cn({ "uk-disabled": page === 1 })}>
           <a href="#" onClick={handlePrev}>
             <span>&lt;</span> Previous

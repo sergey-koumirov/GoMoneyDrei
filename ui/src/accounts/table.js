@@ -3,6 +3,7 @@ import { map } from "lodash";
 import { DeleteContext } from "../common/with-delete";
 import cn from "classnames";
 import Pagination from "../common/pagination";
+import { FilterContext } from "..";
 
 const Table = ({
   info,
@@ -12,6 +13,12 @@ const Table = ({
   handlePageChange,
 }) => {
   const { handleDeleteClick } = useContext(DeleteContext);
+  const { setFilter, setTab } = useContext(FilterContext);
+
+  const applyFilter = (id) => {
+    setFilter({ fromID: id, toID: 0 });
+    setTab("transactions");
+  };
 
   return (
     <>
@@ -38,7 +45,16 @@ const Table = ({
           {map(info.Records, (record) => (
             <tr key={record.ID}>
               <td className="uk-text-center">{record.ID}</td>
-              <td>{record.Name}</td>
+              <td>
+                <span
+                  className="filter"
+                  onClick={() => {
+                    applyFilter(record.ID);
+                  }}
+                >
+                  {record.Name}
+                </span>
+              </td>
               <td className="uk-text-center">{record.CurrencyCode}</td>
               <td className="uk-text-center">
                 {record.Visible === 0 ? "HIDDEN" : ""}

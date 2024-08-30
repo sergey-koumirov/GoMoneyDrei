@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Table from "./table";
 import Editor from "./editor";
 import { WithDeleteContext } from "../common/with-delete";
@@ -9,6 +9,8 @@ import {
   apiTransactionDelete,
 } from "../api";
 import { isEmpty } from "lodash";
+import MoneyTable from "../common/money-table";
+import { FilterContext } from "..";
 
 const Transactions = () => {
   const [data, setData] = useState({});
@@ -20,10 +22,12 @@ const Transactions = () => {
     new Date().toISOString().split("T")[0],
   );
 
+  const { filter } = useContext(FilterContext);
+
   const handleDelete = (id, afterCallback) => {
     apiTransactionDelete(id).then(({ errors }) => {
       if (isEmpty(errors)) {
-        apiTransactions(page).then((data) => {
+        apiTransactions(page, filter).then((data) => {
           setMode("index");
           setData(data);
         });
@@ -34,7 +38,7 @@ const Transactions = () => {
   };
 
   const handlePageChange = (newPage) => {
-    apiTransactions(newPage).then((data) => {
+    apiTransactions(newPage, filter).then((data) => {
       setPage(newPage);
       setData(data);
     });
@@ -84,7 +88,7 @@ const Transactions = () => {
     } else {
       apiTransactionUpdate(payload).then(({ _, errors }) => {
         if (isEmpty(errors)) {
-          apiTransactions(page).then((data) => {
+          apiTransactions(page, filter).then((data) => {
             setMode("index");
             setData(data);
           });
@@ -114,10 +118,10 @@ const Transactions = () => {
   };
 
   useEffect(() => {
-    apiTransactions(page).then((data) => {
+    apiTransactions(page, filter).then((data) => {
       setData(data);
     });
-  }, []);
+  }, [filter]);
 
   return (
     <div className="uk-padding-small uk-padding-remove-top ">
@@ -131,6 +135,9 @@ const Transactions = () => {
             templates={data.templates}
             handleTemplate={handleTemplate}
           />
+          <div className="nailed">
+            <MoneyTable records={data.balances} showPart={false} />
+          </div>
         </WithDeleteContext>
       )}
 

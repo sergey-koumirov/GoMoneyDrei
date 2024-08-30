@@ -14,13 +14,24 @@ func Transactions(c *gin.Context) {
 		page = 1
 	}
 
+	fromID, err2 := strconv.Atoi(c.Query("fromID"))
+	if err2 != nil {
+		fromID = 0
+	}
+
+	toID, err3 := strconv.Atoi(c.Query("toID"))
+	if err3 != nil {
+		toID = 0
+	}
+
 	c.JSON(
 		http.StatusOK,
 		gin.H{
-			"info":         db.TransactionsData(page),
+			"info":         db.TransactionsData(page, fromID, toID),
 			"accountsFrom": db.Accounts([]string{"income", "balance", "stocks"}),
 			"accountsTo":   db.Accounts([]string{"expense", "balance", "stocks"}),
 			"templates":    db.TemplatesData().Records,
+			"balances":     db.GetBalances("balance"),
 		},
 	)
 }
