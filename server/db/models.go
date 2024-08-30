@@ -40,3 +40,21 @@ type Transaction struct {
 func (Transaction) TableName() string {
 	return "transactions"
 }
+
+// Template - model
+type Template struct {
+	ID            int64  `gorm:"column:id"`
+	Description   string `gorm:"column:description"`
+	AccountFromID int64  `gorm:"column:account_from_id"`
+	AmountFrom    int64  `gorm:"column:amount_from"`
+	AccountToID   int64  `gorm:"column:account_to_id"`
+	AmountTo      int64  `gorm:"column:amount_to"`
+
+	AccountFrom Account
+	AccountTo   Account
+}
+
+// TableName - table name
+func (Template) TableName() string {
+	return "templates"
+}

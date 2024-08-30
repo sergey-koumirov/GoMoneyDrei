@@ -5,15 +5,17 @@ import Menu from "./menu";
 import Currencies from "./currencies";
 import Accounts from "./accounts";
 import Transactions from "./transactions";
+import Templates from "./templates";
 
 const App = () => {
-  const [tab, setTab] = useState("transactions");
+  const [tab, setTab] = useState("templates");
 
   return (
     <>
       <Menu tab={tab} setTab={setTab} />
       {tab == "report" && <Report />}
       {tab == "accounts" && <Accounts />}
+      {tab == "templates" && <Templates />}
       {tab == "currencies" && <Currencies />}
       {tab == "transactions" && <Transactions />}
     </>

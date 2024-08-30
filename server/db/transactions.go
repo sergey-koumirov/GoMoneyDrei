@@ -143,15 +143,6 @@ func transactionParseValidate(params map[string]interface{}, result *Transaction
 	result.AmountTo = int64(params["AmountTo"].(float64))
 }
 
-func validateAccountIDExists(f string, accountID int64, errors models.RecordErrors) {
-	var count int64
-	base.Model(&Account{}).Where("id = ?", accountID).Count(&count)
-
-	if count == 0 {
-		errors[f] = append(errors[f], "account not exists")
-	}
-}
-
 func equalize(result *Transaction) {
 	accountFrom := Account{ID: result.AccountFromID}
 	base.Preload("Currency").Find(&accountFrom)

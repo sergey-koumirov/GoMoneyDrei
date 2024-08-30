@@ -45,3 +45,12 @@ func validateInSet[C string | int64](f string, v C, enums []C, errors models.Rec
 		errors[f] = append(errors[f], fmt.Sprintf("is not in set %v", enums))
 	}
 }
+
+func validateAccountIDExists(f string, accountID int64, errors models.RecordErrors) {
+	var count int64
+	base.Model(&Account{}).Where("id = ?", accountID).Count(&count)
+
+	if count == 0 {
+		errors[f] = append(errors[f], "account not exists")
+	}
+}

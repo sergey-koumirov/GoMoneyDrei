@@ -105,3 +105,32 @@ export const apiTransactionDelete = async (id) => {
     return http.data;
   });
 };
+
+// Templates
+export const apiTemplates = async (page) => {
+  return await apiClient.get(`/api/templates?page=${page}`).then((http) => {
+    return http.data;
+  });
+};
+
+export const apiTemplateCreate = async (payload) => {
+  return await apiClient
+    .post(`/api/templates`, payload)
+    .then(({ data: { transaction, errors } }) => {
+      return { transaction, errors };
+    });
+};
+
+export const apiTemplateUpdate = async (payload) => {
+  return await apiClient
+    .put(`/api/template/${payload.ID}`, payload)
+    .then(({ data: { transaction, errors } }) => {
+      return { transaction, errors };
+    });
+};
+
+export const apiTemplateDelete = async (id) => {
+  return await apiClient.delete(`/api/template/${id}`).then((http) => {
+    return http.data;
+  });
+};

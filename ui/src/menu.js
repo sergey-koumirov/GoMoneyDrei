@@ -30,6 +30,7 @@ const tabs = [
   ["report", "Report"],
   ["transactions", "Transactions"],
   ["accounts", "Accounts"],
+  ["templates", "Templates"],
   ["currencies", "Currencies"],
   ["stocks", "Stocks"],
 ];
