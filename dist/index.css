@@ -3087,6 +3087,8 @@ select.uk-form-width-xsmall {
   justify-content: center;
   align-items: center;
   line-height: 0;
+  border: 1px solid #cccccc;
+  margin-right: 10px;
 }
 /*
  * Required for `a`

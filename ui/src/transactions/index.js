@@ -95,6 +95,24 @@ const Transactions = () => {
     }
   };
 
+  const handleTemplate = (template) => {
+    setRecord({
+      ID: 0,
+      Dt: lastUsedDate,
+      Description: "",
+      AccountFromID: template.AccountFromID,
+      AccountFromName: "",
+      CurrencyFromCode: "",
+      AmountFrom: template.AmountFrom,
+      AccountToID: template.AccountToID,
+      AccountToName: "",
+      CurrencyToCode: "",
+      AmountTo: template.AmountTo,
+    });
+    setErrors({});
+    setMode("edit");
+  };
+
   useEffect(() => {
     apiTransactions(page).then((data) => {
       setData(data);
@@ -110,6 +128,8 @@ const Transactions = () => {
             handleEdit={handleEdit}
             handleAdd={handleAdd}
             handlePageChange={handlePageChange}
+            templates={data.templates}
+            handleTemplate={handleTemplate}
           />
         </WithDeleteContext>
       )}

@@ -20,6 +20,7 @@ func Transactions(c *gin.Context) {
 			"info":         db.TransactionsData(page),
 			"accountsFrom": db.Accounts([]string{"income", "balance", "stocks"}),
 			"accountsTo":   db.Accounts([]string{"expense", "balance", "stocks"}),
+			"templates":    db.TemplatesData().Records,
 		},
 	)
 }

@@ -5,14 +5,39 @@ import cn from "classnames";
 import Pagination from "../common/pagination";
 import { money } from "../formatters";
 
-const Table = ({ info, handleEdit, handleAdd, handlePageChange }) => {
+const Table = ({
+  info,
+  handleEdit,
+  handleAdd,
+  handlePageChange,
+  templates,
+  handleTemplate,
+}) => {
   const { handleDeleteClick } = useContext(DeleteContext);
 
   let stripeN = 1;
   let trClass = "tr-stripe1";
 
+  const onTemplateClick = (ev, template) => {
+    ev.preventDefault();
+    handleTemplate(template);
+  };
+
   return (
     <>
+      <div className="uk-light">
+        {map(templates, (template) => (
+          <a
+            className="uk-badge"
+            key={template.ID}
+            onClick={(ev) => {
+              onTemplateClick(ev, template);
+            }}
+          >
+            {template.Description}
+          </a>
+        ))}
+      </div>
       <table className="uk-table uk-table-small uk-table-grid uk-table-hover">
         <thead>
           <tr>

@@ -39,15 +39,11 @@ const Table = ({ info, handleEdit, handleAdd }) => {
                 <td className={cn(`clr-${record.AccountFromTag}`)}>
                   {record.AccountFromName}
                 </td>
-                <td className="uk-text-right">
-                  {money(record.AmountFrom)}
-                </td>
-                <td className="uk-text-right">
-                  {money(record.AmountTo)}
-                </td>
+                <td className="uk-text-right">{money(record.AmountFrom)}</td>
+                <td className="uk-text-right">{money(record.AmountTo)}</td>
                 <td className={cn(`clr-${record.AccountToTag}`)}>
                   {record.AccountToName}
-                </td>                
+                </td>
                 <td className="uk-text-right uk-width-small">
                   <button
                     className="uk-button uk-button-micro uk-button-primary hiddenish"

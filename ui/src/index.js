@@ -8,7 +8,7 @@ import Transactions from "./transactions";
 import Templates from "./templates";
 
 const App = () => {
-  const [tab, setTab] = useState("templates");
+  const [tab, setTab] = useState("transactions");
 
   return (
     <>
