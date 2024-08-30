@@ -1,15 +1,7 @@
 import React from "react";
-import cn from "classnames";
 import { isEmpty } from "lodash";
 
-const FieldText = ({
-  label,
-  field,
-  record,
-  setRecord,
-  errors,
-  widthClass = "uk-form-width-medium",
-}) => {
+const FieldDate = ({ label, field, record, setRecord, errors }) => {
   const handleChange = (e) => {
     const newRecord = { ...record };
     newRecord[field] = e.target.value;
@@ -21,12 +13,10 @@ const FieldText = ({
       <label className="uk-form-label">{label}</label>
       <div className="uk-form-controls">
         <input
-          className={cn(widthClass, "uk-input uk-form-small", {
-            "uk-form-danger": !isEmpty(errors[field]),
-          })}
+          type="date"
+          className="uk-input uk-form-width-medium uk-form-small"
           value={record[field]}
           onChange={handleChange}
-          type="text"
         />
         {!isEmpty(errors[field]) && (
           <span className="uk-padding-small uk-form-danger">
@@ -38,4 +28,4 @@ const FieldText = ({
   );
 };
 
-export default FieldText;
+export default FieldDate;

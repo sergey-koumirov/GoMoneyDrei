@@ -23,3 +23,31 @@ func Transactions(c *gin.Context) {
 		},
 	)
 }
+
+func TransactionCreate(c *gin.Context) {
+	temp := make(map[string]interface{})
+	c.Bind(&temp)
+
+	transaction, errors := db.TransactionCreate(temp)
+
+	c.JSON(200, gin.H{"transaction": transaction, "errors": errors})
+}
+
+func TransactionUpdate(c *gin.Context) {
+	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+
+	temp := make(map[string]interface{})
+	c.Bind(&temp)
+
+	transaction, errors := db.TransactionUpdate(id, temp)
+
+	c.JSON(200, gin.H{"transaction": transaction, "errors": errors})
+}
+
+func TransactionDelete(c *gin.Context) {
+	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+
+	errors := db.TransactionDelete(id)
+
+	c.JSON(200, gin.H{"errors": errors})
+}

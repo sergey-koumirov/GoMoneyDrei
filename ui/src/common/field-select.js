@@ -10,6 +10,7 @@ const FieldSelect = ({
   setRecord,
   collection,
   errors,
+  widthClass = "uk-form-width-medium",
 }) => {
   const handleChange = (e) => {
     const newID = parseInt(e.target.value);
@@ -38,7 +39,7 @@ const FieldSelect = ({
       <label className="uk-form-label">{label}</label>
       <div className="uk-form-controls">
         <select
-          className={cn("uk-form-width-medium", {
+          className={cn(widthClass, {
             "uk-form-danger": !isEmpty(errors[field]),
           })}
           value={record[field]}

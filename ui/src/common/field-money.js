@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import cn from "classnames";
 import { isEmpty } from "lodash";
 
-const FieldText = ({
+const FieldMoney = ({
   label,
   field,
   record,
@@ -10,9 +10,16 @@ const FieldText = ({
   errors,
   widthClass = "uk-form-width-medium",
 }) => {
+  const [temp, setTemp] = useState(record[field] / 100.0);
+
   const handleChange = (e) => {
+    let text = e.target.value;
+    setTemp(text);
+
+    const fv = parseFloat(text.replace(",", "."));
+
     const newRecord = { ...record };
-    newRecord[field] = e.target.value;
+    newRecord[field] = Math.round(fv * 100);
     setRecord(newRecord);
   };
 
@@ -24,7 +31,7 @@ const FieldText = ({
           className={cn(widthClass, "uk-input uk-form-small", {
             "uk-form-danger": !isEmpty(errors[field]),
           })}
-          value={record[field]}
+          value={temp}
           onChange={handleChange}
           type="text"
         />
@@ -38,4 +45,4 @@ const FieldText = ({
   );
 };
 
-export default FieldText;
+export default FieldMoney;

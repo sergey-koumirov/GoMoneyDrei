@@ -5,13 +5,13 @@ type TransactionRow struct {
 	Dt          string
 	Description string
 
-	AccountFromId    int64
+	AccountFromID    int64
 	AccountFromName  string
 	AccountFromTag   string
 	CurrencyFromCode string
 	AmountFrom       int64
 
-	AccountToId    int64
+	AccountToID    int64
 	AccountToName  string
 	AccountToTag   string
 	CurrencyToCode string

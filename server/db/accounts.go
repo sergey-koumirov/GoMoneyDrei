@@ -65,7 +65,8 @@ func Accounts(tags []string) []models.AccountShort {
 			from accounts a
 			       inner join currencies c on c.id = a.currency_id
 			where a.tag in ?
-			order by a.tag, a.id`,
+			  and a.visible = 1
+			order by a.tag, a.name, a.id`,
 		tags,
 	).Rows()
 

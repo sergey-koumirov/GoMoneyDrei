@@ -87,16 +87,16 @@ export const apiTransactions = async (page) => {
 export const apiTransactionCreate = async (payload) => {
   return await apiClient
     .post(`/api/transactions`, payload)
-    .then(({ data: { currency, errors } }) => {
-      return { currency, errors };
+    .then(({ data: { transaction, errors } }) => {
+      return { transaction, errors };
     });
 };
 
 export const apiTransactionUpdate = async (payload) => {
   return await apiClient
     .put(`/api/transaction/${payload.ID}`, payload)
-    .then(({ data: { currency, errors } }) => {
-      return { currency, errors };
+    .then(({ data: { transaction, errors } }) => {
+      return { transaction, errors };
     });
 };
 

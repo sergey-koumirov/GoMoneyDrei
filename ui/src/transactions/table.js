@@ -9,7 +9,7 @@ const Table = ({ info, handleEdit, handleAdd, handlePageChange }) => {
   const { handleDeleteClick } = useContext(DeleteContext);
 
   let stripeN = 1;
-  let trClass = "tr-stripe1"
+  let trClass = "tr-stripe1";
 
   return (
     <>
@@ -33,16 +33,24 @@ const Table = ({ info, handleEdit, handleAdd, handlePageChange }) => {
         </thead>
         <tbody>
           {map(info.Records, (record, index) => {
-            if(record.Dt === info.Today){
-              trClass = "tr-today"
-            }else if(index > 0 && stripeN === 1 && info.Records[index-1].Dt !== record.Dt) {
+            if (record.Dt === info.Today) {
+              trClass = "tr-today";
+            } else if (
+              index > 0 &&
+              stripeN === 1 &&
+              info.Records[index - 1].Dt !== record.Dt
+            ) {
               stripeN = 2;
-              trClass = "tr-stripe2"
-            }else if(index > 0 && stripeN === 2 && info.Records[index-1].Dt !== record.Dt) {
+              trClass = "tr-stripe2";
+            } else if (
+              index > 0 &&
+              stripeN === 2 &&
+              info.Records[index - 1].Dt !== record.Dt
+            ) {
               stripeN = 1;
-              trClass = "tr-stripe1"
+              trClass = "tr-stripe1";
             }
-            
+
             return (
               <tr key={record.ID} className={trClass}>
                 <td className="uk-text-center">{record.Dt}</td>
@@ -91,11 +99,13 @@ const Table = ({ info, handleEdit, handleAdd, handlePageChange }) => {
 
 const AmountText = ({ record }) => {
   if (record.CurrencyFromCode === record.CurrencyToCode) {
+    const spanClass =
+      record.AccountFromTag === "balance"
+        ? `clr-${record.AccountToTag}`
+        : `clr-${record.AccountFromTag}`;
     return (
       <>
-        <span className={cn(`clr-${record.AccountFromTag}`)}>
-          {money(record.AmountFrom)}
-        </span>
+        <span className={spanClass}>{money(record.AmountFrom)}</span>
         <sub>&nbsp;{record.CurrencyFromCode}</sub>
       </>
     );

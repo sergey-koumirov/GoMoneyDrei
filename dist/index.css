@@ -1615,6 +1615,10 @@ select.uk-form-width-xsmall {
 .uk-form-width-large {
   width: 500px;
 }
+.uk-form-width-100 {
+  width: 100%;
+}
+
 /* Select
  ========================================================================== */
 /*
