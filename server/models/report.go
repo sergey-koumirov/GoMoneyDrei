@@ -1,25 +1,35 @@
 package models
 
-type Balance struct {
-	ID     int64
-	Name   string
-	Amount int64
+type MoneyRecord struct {
+	ID      int64
+	Name    string
+	Amount  int64
+	Part    float64
+	PartSum float64
 }
 
-type BalancesInfo struct {
-	Balances     []Balance
+type MoneyInfo struct {
+	Records      []MoneyRecord
 	CurrencyCode string
 	Total        int64
 }
 
-type BalancesInfos []BalancesInfo
+type MoneyInfos []MoneyInfo
 
-type BalancesInfoByCurr map[string]BalancesInfo
+type MoneyInfoByCurr map[string]MoneyInfo
 
 type FullReport struct {
-	Balances BalancesInfos
-	// Stocks
-	// ExpensesCurrent
-	// ExpensesPrev
-	// Expenses12
+	Balances MoneyInfos
+
+	CurrentIncomes  MoneyInfos
+	PreviousIncomes MoneyInfos
+	YearIncomes     MoneyInfos
+
+	CurrentExpenses  MoneyInfos
+	PreviousExpenses MoneyInfos
+	YearExpenses     MoneyInfos
+
+	CurrentDate   string
+	CurrentMonth  string
+	PreviousMonth string
 }
