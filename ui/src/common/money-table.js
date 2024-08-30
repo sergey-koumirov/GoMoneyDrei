@@ -1,8 +1,16 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { money, percent } from "../formatters";
 import { map } from "lodash";
+import { FilterContext } from "..";
 
 const MoneyTable = ({ records, showPart = true }) => {
+  const { setFilter, setTab } = useContext(FilterContext);
+
+  const applyFilter = (id) => {
+    setFilter({ fromID: id, toID: 0 });
+    setTab("transactions");
+  };
+
   return (
     <table className="uk-table uk-table-striped uk-table-small uk-table-grid">
       <tbody>
@@ -22,7 +30,16 @@ const MoneyTable = ({ records, showPart = true }) => {
             </tr>
             {map(info.Records, (rec) => (
               <tr key={rec.ID}>
-                <th>{rec.Name}</th>
+                <th>
+                  <span
+                    className="filter"
+                    onClick={() => {
+                      applyFilter(rec.ID);
+                    }}
+                  >
+                    {rec.Name}
+                  </span>
+                </th>
                 <td className="money">{money(rec.Amount)}</td>
                 {showPart && (
                   <>

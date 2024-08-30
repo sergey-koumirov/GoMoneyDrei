@@ -2,18 +2,14 @@ import React, { useContext } from "react";
 import { map } from "lodash";
 import { DeleteContext } from "../common/with-delete";
 import cn from "classnames";
-import Pagination from "../common/pagination";
 import { money } from "../formatters";
 
 const Table = ({ info, handleEdit, handleAdd }) => {
   const { handleDeleteClick } = useContext(DeleteContext);
 
-  let stripeN = 1;
-  let trClass = "tr-stripe1";
-
   return (
     <>
-      <table className="uk-table uk-table-small uk-table-grid uk-table-hover">
+      <table className="uk-table uk-table-striped uk-table-small uk-table-grid uk-table-hover">
         <thead>
           <tr>
             <th className="uk-text-center">Name</th>
