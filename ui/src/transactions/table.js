@@ -47,7 +47,7 @@ const Table = ({
       <table className="uk-table uk-table-small uk-table-grid uk-table-hover">
         <thead>
           <tr>
-            <th className="uk-text-center">Dt</th>
+            <th className="uk-text-center">Date</th>
             <th className="uk-text-center">From</th>
             <th className="uk-text-center">Amount</th>
             <th className="uk-text-center">To</th>

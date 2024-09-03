@@ -11,7 +11,7 @@ import Stocks from "./stocks";
 export const FilterContext = createContext({});
 
 const App = () => {
-  const [tab, setTab] = useState("stocks");
+  const [tab, setTab] = useState("transactions");
   const [filter, setFilter] = useState({ fromID: 0, toID: 0 });
 
   const dd = { filter, setFilter, setTab };

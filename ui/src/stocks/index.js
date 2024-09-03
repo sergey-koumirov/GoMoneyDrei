@@ -39,7 +39,7 @@ const Stocks = () => {
       ID: 0,
       Name: "[A] ",
       Code: "",
-      CurrencyID: 0
+      CurrencyID: 0,
     });
     setErrors({});
     setMode("edit");
