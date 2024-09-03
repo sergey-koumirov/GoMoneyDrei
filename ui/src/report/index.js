@@ -16,8 +16,6 @@ const Report = () => {
       <div className="uk-width-1-3@s">
         <h5>Accounts</h5>
         <MoneyTable records={data.Balances} showPart={false} />
-
-        <h5>Stocks</h5>
       </div>
 
       <div className="uk-width-2-3@s">

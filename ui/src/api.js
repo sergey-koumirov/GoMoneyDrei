@@ -84,11 +84,11 @@ export const apiTransactions = async (page, filter) => {
     params.push(`page=${page}`);
   }
 
-  if (!!filter.fromID) {
+  if (filter && !!filter.fromID) {
     params.push(`fromID=${filter.fromID}`);
   }
 
-  if (!!filter.toID) {
+  if (filter && !!filter.toID) {
     params.push(`toID=${filter.toID}`);
   }
 
@@ -146,6 +146,35 @@ export const apiTemplateUpdate = async (payload) => {
 
 export const apiTemplateDelete = async (id) => {
   return await apiClient.delete(`/api/template/${id}`).then((http) => {
+    return http.data;
+  });
+};
+
+// Stocks
+export const apiStocks = async () => {
+  return await apiClient.get(`/api/stocks`).then((http) => {
+    return http.data;
+  });
+};
+
+export const apiStockCreate = async (payload) => {
+  return await apiClient
+    .post(`/api/stocks`, payload)
+    .then(({ data: { stock, errors } }) => {
+      return { stock, errors };
+    });
+};
+
+export const apiStockUpdate = async (payload) => {
+  return await apiClient
+    .put(`/api/stock/${payload.ID}`, payload)
+    .then(({ data: { stock, errors } }) => {
+      return { stock, errors };
+    });
+};
+
+export const apiStockDelete = async (id) => {
+  return await apiClient.delete(`/api/stock/${id}`).then((http) => {
     return http.data;
   });
 };

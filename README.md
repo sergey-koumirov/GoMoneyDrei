@@ -13,7 +13,6 @@ npx prettier . --write
 
 # TODO
 - account union (select 2 accounts, move all transactions from second to first, delete second)
-- filter by account
 - stocks
 - stocks report
 - repeat transaction

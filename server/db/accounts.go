@@ -215,12 +215,3 @@ func validateCurrencyIDExists(f string, currencyID int64, errors models.RecordEr
 		errors[f] = append(errors[f], "currency not exists")
 	}
 }
-
-func validateUsesAccountID(f string, accountID int64, errors models.RecordErrors) {
-	var count int64
-	base.Model(&Transaction{}).Where("account_from_id = ? or account_to_id = ?", accountID, accountID).Count(&count)
-
-	if count > 0 {
-		errors[f] = append(errors[f], "used in transactions")
-	}
-}

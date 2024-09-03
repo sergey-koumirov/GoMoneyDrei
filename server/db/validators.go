@@ -54,3 +54,12 @@ func validateAccountIDExists(f string, accountID int64, errors models.RecordErro
 		errors[f] = append(errors[f], "account not exists")
 	}
 }
+
+func validateUsesAccountID(f string, accountID int64, errors models.RecordErrors) {
+	var count int64
+	base.Model(&Transaction{}).Where("account_from_id = ? or account_to_id = ?", accountID, accountID).Count(&count)
+
+	if count > 0 {
+		errors[f] = append(errors[f], "used in transactions")
+	}
+}

@@ -44,5 +44,10 @@ func main() {
 	r.PUT("/api/template/:id", controllers.TemplateUpdate)
 	r.DELETE("/api/template/:id", controllers.TemplateDelete)
 
+	r.GET("/api/stocks", controllers.Stocks)
+	r.POST("/api/stocks", controllers.StockCreate)
+	r.PUT("/api/stock/:id", controllers.StockUpdate)
+	r.DELETE("/api/stock/:id", controllers.StockDelete)
+
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

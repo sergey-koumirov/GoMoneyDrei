@@ -6,11 +6,12 @@ import Currencies from "./currencies";
 import Accounts from "./accounts";
 import Transactions from "./transactions";
 import Templates from "./templates";
+import Stocks from "./stocks";
 
 export const FilterContext = createContext({});
 
 const App = () => {
-  const [tab, setTab] = useState("transactions");
+  const [tab, setTab] = useState("stocks");
   const [filter, setFilter] = useState({ fromID: 0, toID: 0 });
 
   const dd = { filter, setFilter, setTab };
@@ -23,6 +24,7 @@ const App = () => {
       {tab == "templates" && <Templates />}
       {tab == "currencies" && <Currencies />}
       {tab == "transactions" && <Transactions />}
+      {tab == "stocks" && <Stocks />}
     </FilterContext.Provider>
   );
 };
