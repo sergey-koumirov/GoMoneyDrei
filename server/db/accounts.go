@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-const ACCOUNTS_PER_PAGE = 30
+const ACCOUNTS_PER_PAGE = 200
 
 func AccountsData(page int) models.AccountsPage {
 	result := []models.AccountRow{}

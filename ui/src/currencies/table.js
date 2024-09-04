@@ -44,7 +44,7 @@ const Table = ({ records, handleEdit, handleAdd }) => {
                   handleDeleteClick(record.ID);
                 }}
               >
-                Delete
+                ✘
               </button>
             </td>
           </tr>

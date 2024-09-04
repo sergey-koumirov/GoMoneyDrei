@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-const TRANSACTIONS_PER_PAGE = 30
+const TRANSACTIONS_PER_PAGE = 100
 
 func TransactionsData(page int, fromID int, toID int) models.TransactionsPage {
 	result := []models.TransactionRow{}
@@ -53,7 +53,7 @@ func TransactionsData(page int, fromID int, toID int) models.TransactionsPage {
 				   inner join accounts at on at.id = t.account_to_id
 				   inner join currencies ct on ct.id = at.currency_id
 			%s	   
-			order by t.dt desc, t.id
+			order by t.dt desc, t.id desc
 			limit ? offset ?`,
 			whereSql,
 		),

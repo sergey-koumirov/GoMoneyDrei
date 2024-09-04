@@ -56,7 +56,7 @@ const Table = ({ info, handleEdit, handleAdd }) => {
                       handleDeleteClick(record.ID);
                     }}
                   >
-                    Delete
+                    ✘
                   </button>
                 </td>
               </tr>

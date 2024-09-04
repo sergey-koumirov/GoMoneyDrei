@@ -13,6 +13,7 @@ const Table = ({
   handlePageChange,
   templates,
   handleTemplate,
+  handleRepeat,
 }) => {
   const { handleDeleteClick } = useContext(DeleteContext);
   const { filter, setFilter } = useContext(FilterContext);
@@ -96,7 +97,9 @@ const Table = ({
 
             return (
               <tr key={record.ID} className={trClass}>
-                <td className="uk-text-center">{record.Dt}</td>
+                <td className="uk-text-center">
+                    {record.Dt}
+                </td>
                 <td className={cn(`clr-${record.AccountFromTag}`)}>
                   <span
                     className="filter"
@@ -125,6 +128,16 @@ const Table = ({
                   <button
                     className="uk-button uk-button-micro uk-button-primary hiddenish"
                     onClick={() => {
+                      handleRepeat(record);
+                    }}
+                  >
+                    ↻
+                  </button>
+                  &nbsp;&nbsp;
+                
+                  <button
+                    className="uk-button uk-button-micro uk-button-primary hiddenish"
+                    onClick={() => {
                       handleEdit(record);
                     }}
                   >
@@ -132,12 +145,12 @@ const Table = ({
                   </button>
                   &nbsp;&nbsp;
                   <button
-                    className="uk-button uk-button-micro uk-button-danger hiddenish"
+                    className="uk-button uk-button-micro uk-button-default hiddenish"
                     onClick={() => {
                       handleDeleteClick(record.ID);
                     }}
                   >
-                    Delete
+                    ✘
                   </button>
                 </td>
               </tr>

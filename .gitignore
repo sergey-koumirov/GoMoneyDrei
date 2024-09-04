@@ -1,3 +1,5 @@
 ui/node_modules
 .DS_Store
 dist/gmd-dev.sqlite
+gmd.exe
+gmd-*.zip

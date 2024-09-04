@@ -90,7 +90,7 @@ const Table = ({
                     handleDeleteClick(record.ID);
                   }}
                 >
-                  Delete
+                  ✘
                 </button>
               </td>
             </tr>

@@ -117,6 +117,24 @@ const Transactions = () => {
     setMode("edit");
   };
 
+  const handleRepeat = (rec) => {
+    setRecord({
+      ID: 0,
+      Dt: lastUsedDate,
+      Description: rec.Description,
+      AccountFromID: rec.AccountFromID,
+      AccountFromName: rec.AccountFromName,
+      CurrencyFromCode: rec.CurrencyFromCode,
+      AmountFrom: rec.AmountFrom,
+      AccountToID: rec.AccountToID,
+      AccountToName: rec.AccountToName,
+      CurrencyToCode: rec.CurrencyToCode,
+      AmountTo: rec.AmountTo,
+    });
+    setErrors({});
+    setMode("edit");
+  };
+
   useEffect(() => {
     apiTransactions(page, filter).then((data) => {
       setData(data);
@@ -134,6 +152,7 @@ const Transactions = () => {
             handlePageChange={handlePageChange}
             templates={data.templates}
             handleTemplate={handleTemplate}
+            handleRepeat={handleRepeat}
           />
           <div className="nailed">
             <MoneyTable records={data.balances} showPart={false} />
