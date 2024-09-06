@@ -122,8 +122,8 @@ export const apiTransactionDelete = async (id) => {
 };
 
 // Templates
-export const apiTemplates = async (page) => {
-  return await apiClient.get(`/api/templates?page=${page}`).then((http) => {
+export const apiTemplates = async () => {
+  return await apiClient.get(`/api/templates`).then((http) => {
     return http.data;
   });
 };

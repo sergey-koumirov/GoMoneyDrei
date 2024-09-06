@@ -13,16 +13,16 @@ func TemplatesData() models.TemplatesPage {
 		`select t.id, 
 				t.description,
 
-				af.id as account_from_id,
-				af.name as account_from_name,
-				t.amount_from,
+				ifnull(af.id, 0) as account_from_id,
+				ifnull(af.name, '') as account_from_name,
+				ifnull(t.amount_from, 0) as amount_from,
 
-				at.id as account_to_id,
-				at.name as account_to_name,
-				t.amount_to
+				ifnull(at.id, 0) as account_to_id,
+				ifnull(at.name, '') as account_to_name,
+				ifnull(t.amount_to, 0) as amount_to
 			from templates t
-			       inner join accounts af on af.id = t.account_from_id
-				   inner join accounts at on at.id = t.account_to_id
+			       left join accounts af on af.id = t.account_from_id
+				   left join accounts at on at.id = t.account_to_id
 			order by t.description, t.id`,
 	).Rows()
 

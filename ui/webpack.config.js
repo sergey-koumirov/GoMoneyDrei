@@ -16,6 +16,7 @@ module.exports = {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-env", "@babel/preset-react"],
+            plugins: ["lodash"],
           },
         },
         include: path.resolve(__dirname, "src"),
@@ -29,6 +30,11 @@ module.exports = {
   },
 
   plugins: [],
+
+  optimization: {
+    chunkIds: "size",
+    innerGraph: true,
+  },
 
   mode: "development",
 };

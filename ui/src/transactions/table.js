@@ -97,9 +97,7 @@ const Table = ({
 
             return (
               <tr key={record.ID} className={trClass}>
-                <td className="uk-text-center">
-                    {record.Dt}
-                </td>
+                <td className="uk-text-center">{record.Dt}</td>
                 <td className={cn(`clr-${record.AccountFromTag}`)}>
                   <span
                     className="filter"
@@ -134,7 +132,6 @@ const Table = ({
                     ↻
                   </button>
                   &nbsp;&nbsp;
-                
                   <button
                     className="uk-button uk-button-micro uk-button-primary hiddenish"
                     onClick={() => {

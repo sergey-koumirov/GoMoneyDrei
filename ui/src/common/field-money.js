@@ -9,6 +9,7 @@ const FieldMoney = ({
   setRecord,
   errors,
   widthClass = "uk-form-width-medium",
+  inputRef,
 }) => {
   const [temp, setTemp] = useState(record[field] / 100.0);
 
@@ -23,6 +24,12 @@ const FieldMoney = ({
     setRecord(newRecord);
   };
 
+  const handleFocus = (event) => {
+    if (event.target.value === "0") {
+      event.target.select();
+    }
+  };
+
   return (
     <div className="uk-margin">
       <label className="uk-form-label">{label}</label>
@@ -33,7 +40,9 @@ const FieldMoney = ({
           })}
           value={temp}
           onChange={handleChange}
+          onFocus={handleFocus}
           type="text"
+          ref={inputRef}
         />
         {!isEmpty(errors[field]) && (
           <span className="uk-padding-small uk-form-danger">

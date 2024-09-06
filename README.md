@@ -22,4 +22,4 @@ CGO_ENABLED=1 CC="i686-w64-mingw32-gcc" GOOS=windows GOARCH=386 go build -o gmd.
 cd ui
 npx webpack --mode=production --config webpack.config.js
 
-zip -r gmd-v001.zip ./gmd.exe ./dist
+zip -r gmd-v002.zip ./gmd.exe ./dist

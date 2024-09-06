@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import FieldID from "../common/field-id";
 import BaseErrors from "../common/base-errors";
 import FieldText from "../common/field-text";
@@ -24,6 +24,29 @@ const Editor = ({
     accountFrom &&
     accountTo &&
     accountFrom.CurrencyCode !== accountTo.CurrencyCode;
+
+  const inputFromRef = useRef(null);
+  const inputToRef = useRef(null);
+  const refRecord = useRef(null);
+  refRecord.current = record;
+
+  useEffect(() => {
+    if (record.AccountFromID > 0 && record.AccountToID > 0) {
+      inputFromRef.current.focus();
+    }
+
+    function handleKeyDown(e) {
+      if (e.keyCode === 13) {
+        handleSave(refRecord.current);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return function cleanup() {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <form className="uk-grid uk-grid-small">
@@ -59,6 +82,7 @@ const Editor = ({
           errors={errors}
           setRecord={setRecord}
           widthClass="uk-form-width-100"
+          inputRef={inputFromRef}
         />
       </div>
 
@@ -82,6 +106,7 @@ const Editor = ({
             errors={errors}
             setRecord={setRecord}
             widthClass="uk-form-width-100"
+            inputRef={inputToRef}
           />
         )}
       </div>
