@@ -9,7 +9,7 @@
  */
  html {
   /* 1 */
-  font-family: 'Courier New';
+  font-family: monospace;
   font-size: 14px;
   font-weight: normal;
   line-height: 1.5;
@@ -13034,7 +13034,7 @@ button.hiddenish {
   vertical-align: middle;
   font-size: 14px;
   line-height: 38px;
-  text-align: center;
+  text-align: left;
   height: 30px;
   padding-left: 8px;
   padding-right: 8px;
